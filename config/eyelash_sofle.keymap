@@ -36,6 +36,14 @@
 
         tap-ms = <100>;
     };
+    zoom_encoder: zoom_encoder {
+        compatible = "zmk,behavior-sensor-rotate";
+        #sensor-binding-cells = <0>;
+        // 顺时针：Zoom In（⌘ + =）
+        // 逆时针：Zoom Out（⌘ + -）
+        bindings = <&zoom_in>, <&zoom_out>;
+        tap-ms = <80>;
+    };
 
     behaviors {
     };
@@ -63,6 +71,25 @@
                 <&kp LEFT_SHIFT &mkp MB3>;
 
             label = "SHIFT_MCLK";
+        };
+        zoom_in: zoom_in {
+            compatible = "zmk,behavior-macro";
+            label = "ZOOM_IN";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press &kp LGUI>,
+                <&macro_tap &kp EQUAL>,
+                <&macro_release &kp LGUI>;
+        };
+
+        zoom_out: zoom_out {
+            compatible = "zmk,behavior-macro";
+            label = "ZOOM_OUT";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press &kp LGUI>,
+                <&macro_tap &kp MINUS>,
+                <&macro_release &kp LGUI>;
         };
     };
 
@@ -105,7 +132,7 @@
             >;
 
             display-name = ">L2<";
-            sensor-bindings = <&scroll_encoder>;
+            sensor-bindings = <&zoom_encoder>;
         };
 
         layer_3 {
